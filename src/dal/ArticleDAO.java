@@ -187,6 +187,16 @@ public class ArticleDAO {
 			}
 		}
 		
+		public List<Article> getCatalogue(){
+			ArticleDAO articleDao = new ArticleDAO();
+			List<Article> stock = articleDao.selectAll();
+				for(Article a : stock) {
+					System.out.println(a);
+		}
+			System.out.println("");
+			return stock;
+		}
+		
 		
 		
 		
