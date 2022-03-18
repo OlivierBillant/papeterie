@@ -139,6 +139,6 @@ public class ArticleDAO {
 					e.printStackTrace();
 				}
 			}
-//		Connexion.deconnexion(cnx);
+		Connexion.deconnexion(cnx);
 	}
 }
