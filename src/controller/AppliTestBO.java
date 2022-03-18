@@ -131,16 +131,48 @@ public class AppliTestBO {
 			
 		System.out.println("OK");
 
-		for(int i = 0; i<articles.size();i++) {
-			articleDao.insert(articles.get(i));
-		}
+//		for(int i = 0; i<articles.size();i++) {
+//			articleDao.insert(articles.get(i));
+//		}
+		
+		articleDao.insert(articles.get(1));
 		
 		stock = articleDao.selectAll();
 		for(Article a : stock) {
 			System.out.println(a);
 		}
-	}
+		System.out.println("OK");
 
+		
+		articleDao.delete(articles.get(1).getIdArticle());
+	
+
+		stock = articleDao.selectAll();
+		for(Article a : stock) {
+			System.out.println(a);}
+		System.out.println("OK");
+
+
+		Article a1 = new Stylo( "Bic", "BBOrange","Bic bille Orange", 1.2f, 20, "bleu");
+		articleDao.insert(a1);
+		stock = articleDao.selectAll();
+		for(Article a : stock) {
+			System.out.println(a);}
+		System.out.println("OK");
+
+		
+		((Stylo) a1).setCouleur("noir");
+		((Stylo) a1).setDesignation("Bic bille noir");
+		((Stylo) a1).setReference("BBNoir");
+		articleDao.update(a1);
+		stock = articleDao.selectAll();
+		for(Article a : stock) {
+			System.out.println(a);}
+		System.out.println("OK");
+	
+	
+	}
+		
 	private static void afficherCatalogue(List<Article> articles) {
 		for (Article article : articles) {
 			System.out.println(article.toString());
