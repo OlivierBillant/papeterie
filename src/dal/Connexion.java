@@ -27,8 +27,25 @@ public class Connexion {
 			try {
 				cnx = DriverManager.getConnection(url,user,psw);
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				System.out.println("Connexion win failed");
+				try {
+					properties.load(Connexion.class.getResourceAsStream("config_mac.properties"));
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				url = properties.getProperty("url");
+				user = properties.getProperty("user");
+				psw =properties.getProperty("psw");
+				
+				try {
+					cnx = DriverManager.getConnection(url,user,psw);
+					System.out.println("Connexion Mac success");
+
+				} catch (SQLException e2) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}
 		return cnx;
