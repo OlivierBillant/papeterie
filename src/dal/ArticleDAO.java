@@ -109,7 +109,7 @@ public class ArticleDAO implements InterfaceDAO<Article> {
 		sqlPrepared += " couleur=?, "; // 7
 		sqlPrepared += " type=? "; // 8
 		sqlPrepared += " WHERE id=? "; // 9
-		System.out.println(sqlPrepared);
+		
 		try {
 			PreparedStatement pStmt = cnx.prepareStatement(sqlPrepared);
 			pStmt.setString(1, a.getReference());

@@ -5,13 +5,13 @@ import java.util.List;
 import bo.Article;
 import dal.ArticleDAO;
 
-public class catalogueManager {
+public class CatalogueManager {
 	private ArticleDAO articleDao = new ArticleDAO();
 	
-	public catalogueManager() {}
+	public CatalogueManager() {}
 	
 	public List<Article> getCatalogue(){
-		return articleDao.getCatalogue();
+		return articleDao.selectAll();
 	}
 	
 	public void addArticle(Article a){
@@ -27,7 +27,7 @@ public class catalogueManager {
 	}
 	
 	public void getArticle(int id){
-		articleDao.selectById(id);
+		articleDao.selectBy(id);
 	}
 	
 	
