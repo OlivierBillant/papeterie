@@ -13,9 +13,9 @@ import bo.Ramette;
 import bo.Article;
 import bo.Stylo;
 
-public class ArticleDAO {
+public class ArticleDAO implements InterfaceDAO<Article> {
 
-	public Article selectById(int id) {
+	public Article selectBy(int id) {
 		Article a = null;
 		Connection cnx = Connexion.getCnx();
 		String sqlPrepared = "SELECT * FROM article WHERE id = ?";
@@ -51,8 +51,6 @@ public class ArticleDAO {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		// a = s;
-		// a = r;
 		return a;
 	}
 
@@ -136,7 +134,6 @@ public class ArticleDAO {
 			pStmt.executeUpdate();
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -176,7 +173,6 @@ public class ArticleDAO {
 			a.setIdArticle(rs.getInt(1));
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -190,8 +186,8 @@ public class ArticleDAO {
 			pStmt.executeUpdate();
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 }
+
