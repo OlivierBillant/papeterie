@@ -48,7 +48,6 @@ public class ArticleDAO implements InterfaceDAO<Article> {
 			}
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return a;
