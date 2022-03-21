@@ -99,20 +99,19 @@ public class ArticleDAO implements InterfaceDAO<Article> {
 
 	public void update(Article a) {
 		Connection cnx = Connexion.getCnx();
-		String sqlPrepared = "UPDATE personne";
+		String sqlPrepared = "UPDATE article";
 		sqlPrepared += " SET reference= ?,";
-		sqlPrepared += " SET marque=?,";
-		sqlPrepared += " SET designation=?,";
-		sqlPrepared += " SET prixUnitaire=?,";
-		sqlPrepared += " SET qteStock=?,"; // 5
-		sqlPrepared += " SET grammage=?,"; // 6
-		sqlPrepared += " SET couleur=? "; // 7
-		sqlPrepared += " SET type=? "; // 8
-		sqlPrepared += " WHERE id=?"; // 9
-
+		sqlPrepared += " marque=?,";
+		sqlPrepared += " designation=?,";
+		sqlPrepared += " prixUnitaire=?,";
+		sqlPrepared += " qteStock=?,"; // 5
+		sqlPrepared += " grammage=?,"; // 6
+		sqlPrepared += " couleur=?, "; // 7
+		sqlPrepared += " type=? "; // 8
+		sqlPrepared += " WHERE id=? "; // 9
+		System.out.println(sqlPrepared);
 		try {
 			PreparedStatement pStmt = cnx.prepareStatement(sqlPrepared);
-
 			pStmt.setString(1, a.getReference());
 			pStmt.setString(2, a.getMarque());
 			pStmt.setString(3, a.getDesignation());
@@ -129,7 +128,7 @@ public class ArticleDAO implements InterfaceDAO<Article> {
 				Stylo s = (Stylo) a;
 				pStmt.setNull(6, Types.NULL);
 				pStmt.setString(7, s.getCouleur());
-				pStmt.setString(8, "ramette");
+				pStmt.setString(8, "stylo");
 			}
 			pStmt.executeUpdate();
 
