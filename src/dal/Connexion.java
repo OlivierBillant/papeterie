@@ -51,6 +51,7 @@ public class Connexion {
 		}
 		return cnx;
 	}
+
 	
 	public static void deconnexion(Connection c) {
 		try {
