@@ -105,7 +105,6 @@ public class AppliTestBO {
 			panier.removeLigne(2); // suppression de PlumeS
 			
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			System.out.println("ERREUR : " + e.getMessage());
 		}
 
@@ -115,53 +114,24 @@ public class AppliTestBO {
 			System.out.println("---------------------------------------------------------------");
 			
 		}  catch (Exception e) {
-			// TODO Auto-generated catch block
 			System.out.println("ERREUR : " + e.getMessage());
 		}
 		
+		//Test homemade
 		ArticleDAO articleDao = new ArticleDAO();
-//		List<Article> stock = articleDao.selectAll();
-//			for(Article a : stock) {
-//				System.out.println(a);
-//			}
-//		System.out.println("OK");
 		articleDao.getCatalogue();
-
-			System.out.println(articles.get(1));
-			System.out.println(articles.get(2));
-			
+		
 		System.out.println("OK");
-
-//		for(int i = 0; i<articles.size();i++) {
-//			articleDao.insert(articles.get(i));
-//		}
 		
 		articleDao.insert(articles.get(1));
-		
-//		stock = articleDao.selectAll();
-//		for(Article a : stock) {
-//			System.out.println(a);
-//		}
-//		System.out.println("OK");
 		articleDao.getCatalogue();
 
-		
 		articleDao.delete(articles.get(1).getIdArticle());
-	
-
-//		stock = articleDao.selectAll();
-//		for(Article a : stock) {
-//			System.out.println(a);}
-//		System.out.println("OK");
 		articleDao.getCatalogue();
 
 
 		Article a1 = new Stylo( "Bic", "BBOrange","Bic bille Orange", 1.2f, 20, "bleu");
 		articleDao.insert(a1);
-//		stock = articleDao.selectAll();
-//		for(Article a : stock) {
-//			System.out.println(a);}
-//		System.out.println("OK");
 		articleDao.getCatalogue();
 
 		
@@ -169,12 +139,7 @@ public class AppliTestBO {
 		((Stylo) a1).setDesignation("Bic bille noir");
 		((Stylo) a1).setReference("BBNoir");
 		articleDao.update(a1);
-//		stock = articleDao.selectAll();
-//		for(Article a : stock) {
-//			System.out.println(a);}
-//		System.out.println("OK");
 		articleDao.getCatalogue();
-	
 	}
 		
 	private static void afficherCatalogue(List<Article> articles) {

@@ -5,202 +5,193 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.naming.spi.DirStateFactory.Result;
-
-import bo.Article;
 import bo.Ramette;
+import bo.Article;
 import bo.Stylo;
-import dal.Connexion;
 
 public class ArticleDAO {
-	public List<Article> selectAll() {
+
+	public Article selectById(int id) {
+		Article a = null;
 		Connection cnx = Connexion.getCnx();
-		List<Article> stock = new ArrayList<Article>();
-		String sql = "SELECT * from article";
+		String sqlPrepared = "SELECT * FROM article WHERE id = ?";
 		try {
-			Statement state = cnx.createStatement(ResultSet.TYPE_FORWARD_ONLY,ResultSet.CONCUR_UPDATABLE);
-			ResultSet result = state.executeQuery(sql);
-		
-			while(result.next()) {
-				if(result.getString("type").equals("stylo")) {
-					Stylo s = new Stylo();
-					s.setIdArticle(result.getInt("id"));
-					s.setReference(result.getString("reference"));
-					s.setMarque(result.getString("marque"));
-					s.setDesignation(result.getString("designation"));
-					s.setPrixUnitaire(result.getFloat("prixUnitaire"));
-					s.setQteStock(result.getInt("qteStock"));
-					s.setCouleur(result.getString("couleur"));
-					stock.add(s);
-				}else {
-					Ramette r = new Ramette();
-					r.setIdArticle(result.getInt("id"));
-					r.setReference(result.getString("reference"));
-					r.setMarque(result.getString("marque"));
-					r.setDesignation(result.getString("designation"));
-					r.setPrixUnitaire(result.getFloat("prixUnitaire"));
-					r.setQteStock(result.getInt("qteStock"));
-					r.setGrammage(result.getInt("grammage"));
-					stock.add(r);
-				}
+			PreparedStatement pStmt = cnx.prepareStatement(sqlPrepared);
+			pStmt.setInt(1, id); // binder
+			// pStmt.executeUpdate();
+			ResultSet rs = pStmt.executeQuery();
+			rs.next(); // extraire de la pile
+			if (rs.getString("type").equals("ramette")) {
+				Ramette r = new Ramette();
+				r.setIdArticle(rs.getInt("id"));
+				r.setReference(rs.getString("reference"));
+				r.setMarque(rs.getString("marque"));
+				r.setPrixUnitaire(rs.getFloat("prixUnitaire"));
+				r.setQteStock(rs.getInt("qteStock"));
+				r.setDesignation(rs.getString("designation"));
+				r.setGrammage(rs.getInt("grammage"));
+				a = r;
+			} else if (rs.getString("type").equals("stylo")) {
+				Stylo s = new Stylo();
+				s.setIdArticle(rs.getInt("id"));
+				s.setReference(rs.getString("reference"));
+				s.setMarque(rs.getString("marque"));
+				s.setPrixUnitaire(rs.getFloat("prixUnitaire"));
+				s.setQteStock(rs.getInt("qteStock"));
+				s.setDesignation(rs.getString("designation"));
+				s.setCouleur(rs.getString("couleur"));
+				a = s;
 			}
-		}catch (SQLException e) {
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-//		Connexion.deconnexion(cnx);
-		return stock;
+		// a = s;
+		// a = r;
+		return a;
 	}
-	
-	public Article selectById(int id) {
+
+	public List<Article> selectAll() {
+		List<Article> articles = new ArrayList<Article>();
 		Connection cnx = Connexion.getCnx();
-		String sqlPrepared = "SELECT * FROM personne WHERE id = ?";
 		Article a = null;
+		String sql = "SELECT * from article";
+		try {
+
+			Statement state = cnx.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+			// j excecute ma query
+			ResultSet rs = state.executeQuery(sql);
+			// tant qu'il y a des lignes ds la pile : je boucle
+			while (rs.next()) {
+				if (rs.getString("type").equals("ramette")) {
+					Ramette r = new Ramette();
+					r.setIdArticle(rs.getInt("id"));
+					r.setReference(rs.getString("reference"));
+					r.setMarque(rs.getString("marque"));
+					r.setPrixUnitaire(rs.getFloat("prixUnitaire"));
+					r.setQteStock(rs.getInt("qteStock"));
+					r.setDesignation(rs.getString("designation"));
+					r.setGrammage(rs.getInt("grammage"));
+					a = r;
+				} else if (rs.getString("type").equals("stylo")) {
+					Stylo s = new Stylo();
+					s.setIdArticle(rs.getInt("id"));
+					s.setReference(rs.getString("reference"));
+					s.setMarque(rs.getString("marque"));
+					s.setPrixUnitaire(rs.getFloat("prixUnitaire"));
+					s.setQteStock(rs.getInt("qteStock"));
+					s.setDesignation(rs.getString("designation"));
+					s.setCouleur(rs.getString("couleur"));
+					a = s;
+				}
+				articles.add(a);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return articles;
+	}
+
+	public void update(Article a) {
+		Connection cnx = Connexion.getCnx();
+		String sqlPrepared = "UPDATE personne";
+		sqlPrepared += " SET reference= ?,";
+		sqlPrepared += " SET marque=?,";
+		sqlPrepared += " SET designation=?,";
+		sqlPrepared += " SET prixUnitaire=?,";
+		sqlPrepared += " SET qteStock=?,"; // 5
+		sqlPrepared += " SET grammage=?,"; // 6
+		sqlPrepared += " SET couleur=? "; // 7
+		sqlPrepared += " SET type=? "; // 8
+		sqlPrepared += " WHERE id=?"; // 9
+
+		try {
+			PreparedStatement pStmt = cnx.prepareStatement(sqlPrepared);
+
+			pStmt.setString(1, a.getReference());
+			pStmt.setString(2, a.getMarque());
+			pStmt.setString(3, a.getDesignation());
+			pStmt.setFloat(4, a.getPrixUnitaire());
+			pStmt.setInt(5, a.getQteStock());
+			pStmt.setInt(9, a.getIdArticle());
+
+			if (a instanceof Ramette) {
+				Ramette r = (Ramette) a;
+				pStmt.setInt(6, r.getGrammage());
+				pStmt.setNull(7, Types.NULL);
+				pStmt.setString(8, "ramette");
+			} else if (a instanceof Stylo) {
+				Stylo s = (Stylo) a;
+				pStmt.setNull(6, Types.NULL);
+				pStmt.setString(7, s.getCouleur());
+				pStmt.setString(8, "ramette");
+			}
+			pStmt.executeUpdate();
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public void insert(Article a) {
+		Connection cnx = Connexion.getCnx();
+		String sqlPrepared = "INSERT INTO article VALUES (NULL,?,?,?,?,?,?,?,?)";
+		try {
+			PreparedStatement pStmt = cnx.prepareStatement(sqlPrepared, Statement.RETURN_GENERATED_KEYS);
+			// binder
+			// Valoriser les parametres de la requete
+			// 1 => premier ?
+			// pStmt.setString(1, p.getPrenom());
+			pStmt.setString(1, a.getReference());
+			pStmt.setString(2, a.getMarque());
+			pStmt.setString(3, a.getDesignation());
+			pStmt.setFloat(4, a.getPrixUnitaire());
+			pStmt.setInt(5, a.getQteStock());
+
+			if (a instanceof Ramette) {
+				Ramette r = (Ramette) a;
+				pStmt.setInt(6, r.getGrammage());
+				pStmt.setNull(7, Types.NULL);
+				pStmt.setString(8, "ramette");
+			} else if (a instanceof Stylo) {
+				Stylo s = (Stylo) a;
+				pStmt.setNull(6, Types.NULL);
+				pStmt.setString(7, s.getCouleur());
+				pStmt.setString(8, "ramette");
+			}
+			
+			pStmt.executeUpdate();
+			// --- id ????
+			// on demande l id donné par l base
+			ResultSet rs = pStmt.getGeneratedKeys();
+			rs.next(); // enlever de la pile
+			a.setIdArticle(rs.getInt(1));
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public void delete(int id) {
+		Connection cnx = Connexion.getCnx();
+		String sqlPrepared = "DELETE FROM article WHERE id = ?";
 		try {
 			PreparedStatement pStmt = cnx.prepareStatement(sqlPrepared);
 			pStmt.setInt(1, id);
-			ResultSet result = pStmt.executeQuery();
-			result.next();
-			if(result.getString("type").equals("stylo")) {
-				Stylo s = new Stylo();
-				s.setIdArticle(result.getInt("id"));
-				s.setReference(result.getString("reference"));
-				s.setMarque(result.getString("marque"));
-				s.setDesignation(result.getString("designation"));
-				s.setPrixUnitaire(result.getFloat("prixUnitaire"));
-				s.setQteStock(result.getInt("qteStock"));
-				s.setCouleur(result.getString("couleur"));
-				a = s;
-			}else {
-				Ramette r = new Ramette();
-				r.setIdArticle(result.getInt("id"));
-				r.setReference(result.getString("reference"));
-				r.setMarque(result.getString("marque"));
-				r.setDesignation(result.getString("designation"));
-				r.setPrixUnitaire(result.getFloat("prixUnitaire"));
-				r.setQteStock(result.getInt("qteStock"));
-				r.setGrammage(result.getInt("grammage"));
-				a = r;
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		
-	}return a;
-		
-	}
-	
-	
-	public void insert(Article a) {
-		Connection cnx = Connexion.getCnx();
-		if(a.getClass().getSimpleName().equals("Stylo")) {
-			String sqlPrepared = "INSERT INTO `article` VALUES (NULL, ?, ?, ?, ?, ?, NULL, ?, ?)";
-			//Statement : 
-			try {
-				PreparedStatement pStmt = cnx.prepareStatement(sqlPrepared, Statement.RETURN_GENERATED_KEYS);
-				pStmt.setString(1, a.getReference());
-				pStmt.setString(2, a.getMarque());
-				pStmt.setString(3, a.getDesignation());
-				pStmt.setFloat(4, a.getPrixUnitaire());
-				pStmt.setInt(5, a.getQteStock());
-				pStmt.setString(6, ((Stylo) a).getCouleur());
-				pStmt.setString(7, a.getClass().getSimpleName());
-				pStmt.executeUpdate();
-				ResultSet resultset = pStmt.getGeneratedKeys();
-				resultset.next();
-				a.setIdArticle(resultset.getInt(1));
-				
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}else {
-			String sqlPrepared = "INSERT INTO `article` VALUES (NULL, ?, ?, ?, ?, ?, ?, NULL, ?)";
-			//Statement : 
-			try {
-				PreparedStatement pStmt = cnx.prepareStatement(sqlPrepared, Statement.RETURN_GENERATED_KEYS);
-				pStmt.setString(1, a.getReference());
-				pStmt.setString(2, a.getMarque());
-				pStmt.setString(3, a.getDesignation());
-				pStmt.setFloat(4, a.getPrixUnitaire());
-				pStmt.setInt(5, a.getQteStock());
-				pStmt.setInt(6, ((Ramette) a).getGrammage());
-				pStmt.setString(7, a.getClass().getSimpleName());
-				pStmt.executeUpdate();
-				ResultSet resultset = pStmt.getGeneratedKeys();
-				resultset.next();
-				a.setIdArticle(resultset.getInt(1));
-				
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-		public void delete(int index) {
-			Connection cnx = Connexion.getCnx();
-				String sqlPrepared = "DELETE FROM `article` WHERE `id` = ?";
-				//Statement : 
-				try {
-					PreparedStatement pStmt = cnx.prepareStatement(sqlPrepared);
-					pStmt.setInt(1, index);
-					pStmt.executeUpdate();
-					
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-		
-		public void update(Article a) {
-			Connection cnx = Connexion.getCnx();
-			if(a.getClass().getSimpleName().equals("Stylo")) {
-				String sqlPrepared = "UPDATE article SET reference=?, marque=?, designation=?, prixUnitaire=?, qteStock=?, couleur=? WHERE id = ? ";
-				try {
-					PreparedStatement pStmt = cnx.prepareStatement(sqlPrepared);
-					pStmt.setString(1, a.getReference());
-					pStmt.setString(2, a.getMarque());
-					pStmt.setString(3, a.getDesignation());
-					pStmt.setFloat(4, a.getPrixUnitaire());
-					pStmt.setInt(5, a.getQteStock());
-					pStmt.setString(6, ((Stylo) a).getCouleur());
-					pStmt.setInt(7, a.getIdArticle());
-					pStmt.executeUpdate();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}else {
-				String sqlPrepared = "UPDATE article SET reference=?, marque=?, designation=?, prixUnitaire=?, qteStock=?, grammage=? WHERE id = ? ";
-				try {
-					PreparedStatement pStmt = cnx.prepareStatement(sqlPrepared);
-					pStmt.setString(1, a.getReference());
-					pStmt.setString(2, a.getMarque());
-					pStmt.setString(3, a.getDesignation());
-					pStmt.setFloat(4, a.getPrixUnitaire());
-					pStmt.setInt(5, a.getQteStock());
-					pStmt.setInt(6, ((Ramette) a).getGrammage());
-					pStmt.setInt(7, a.getIdArticle());
-					pStmt.executeUpdate();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		}
-		
-		public List<Article> getCatalogue(){
-			ArticleDAO articleDao = new ArticleDAO();
-			List<Article> stock = articleDao.selectAll();
-				for(Article a : stock) {
-					System.out.println(a);
-		}
-			System.out.println("");
-			return stock;
-		}
-		
-		
-		
-		
-		
-//		Connexion.deconnexion(cnx);
-	}
+			pStmt.executeUpdate();
 
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+}
