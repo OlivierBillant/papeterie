@@ -26,8 +26,9 @@ public class Connexion {
 			
 			try {
 				cnx = DriverManager.getConnection(url,user,psw);
+				System.out.println("Connexion Win success");
 			} catch (SQLException e) {
-				System.out.println("Connexion win failed");
+				System.out.println("Connexion Win failed");
 				try {
 					properties.load(Connexion.class.getResourceAsStream("config_mac.properties"));
 				} catch (IOException e1) {
