@@ -1,26 +1,29 @@
 package bll;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.List;
 
+import java.util.List;
 import bo.Article;
 import dal.ArticleDAO;
-import dal.Connexion;
 
 public class CatalogueManager {
-	private ArticleDAO articleDao = new ArticleDAO();
+	private ArticleDAO articleDao;
 	
-	public CatalogueManager() {}
 	
-	public List<Article> getCatalogue(){
-		return articleDao.selectAll();
+	
+	public CatalogueManager() {
+		articleDao = new ArticleDAO();
 	}
 	
-	public void addArticle(Article a){
-		articleDao.insert(a);
+	public List<Article> getCatalogue(){
+		List<Article> articles = null;
+		articles = articleDao.selectAll();
+		//erreur de connexion à traiter
+		return articles; // aussi possible return articleDao.selecAll();
+	}
+	
+	public void addArticle(Article newArticle){
+		//valider article avant ajout
+		articleDao.insert(newArticle);
 	}
 	
 	public void updateArticle(Article a){
@@ -35,20 +38,15 @@ public class CatalogueManager {
 		return articleDao.selectBy(id);
 	}
 	
-	public void validerArticle(int id) {
-		Connection cnx = Connexion.getCnx();
-		String sqlPrepared = "SELECT * FROM article WHERE id = ?";
-		try {
-			PreparedStatement pStmt = cnx.prepareStatement(sqlPrepared);
-			pStmt.setInt(1, id); // binder
-			// pStmt.executeUpdate();
-			ResultSet rs = pStmt.executeQuery();
-			rs.next(); // extraire de la pile
-			rs.getMetaData().contains("reference");
+	private void validerArticle(Article a) {
+		String str = "";
+		if ((a.getReference() == null) || 
+			(a.getReference().length() == 0) || 
+			(a.getReference().trim().length() == 0)){
+			str = "La référence n'est pas valide";
 		}
-		catch (SQLException e) {
-			e.printStackTrace();
-		}
+		//utiliser str pour remonter l'exception au controller.
+		
 		
 	}
 }
