@@ -1,4 +1,4 @@
-package bo;
+package model.bo;
 
 public class Stylo extends Article {
 	private String couleur;

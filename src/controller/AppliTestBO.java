@@ -5,11 +5,12 @@ package controller;
 
 import java.util.ArrayList;
 import java.util.List;
-import bo.Article;
-import bo.Panier;
-import bo.Ramette;
-import bo.Stylo;
-import dal.ArticleDAO;
+
+import model.bo.Article;
+import model.bo.Panier;
+import model.bo.Ramette;
+import model.bo.Stylo;
+import model.dal.ArticleDAO;
 
 
 

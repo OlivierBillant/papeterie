@@ -1,4 +1,4 @@
-package dal;
+package model.dal;
 
 import java.util.List;
 

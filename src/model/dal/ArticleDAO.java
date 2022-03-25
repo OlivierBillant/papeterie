@@ -1,4 +1,4 @@
-package dal;
+package model.dal;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,9 +9,9 @@ import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
-import bo.Ramette;
-import bo.Article;
-import bo.Stylo;
+import model.bo.Article;
+import model.bo.Ramette;
+import model.bo.Stylo;
 
 public class ArticleDAO implements InterfaceDAO<Article> {
 

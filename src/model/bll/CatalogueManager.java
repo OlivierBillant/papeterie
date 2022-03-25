@@ -1,9 +1,10 @@
-package bll;
+package model.bll;
 
 
 import java.util.List;
-import bo.Article;
-import dal.ArticleDAO;
+
+import model.bo.Article;
+import model.dal.ArticleDAO;
 
 public class CatalogueManager {
 	private ArticleDAO articleDao;

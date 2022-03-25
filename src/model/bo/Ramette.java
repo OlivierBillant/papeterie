@@ -1,4 +1,4 @@
-package bo;
+package model.bo;
 
 public class Ramette extends Article {
 	private int grammage;

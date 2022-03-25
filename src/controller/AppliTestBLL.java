@@ -3,10 +3,11 @@ package controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import bo.Article;
-import bo.Ramette;
-import bo.Stylo;
 import bll.*;
+import model.bll.CatalogueManager;
+import model.bo.Article;
+import model.bo.Ramette;
+import model.bo.Stylo;
 
 public class AppliTestBLL {
 

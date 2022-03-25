@@ -2,11 +2,11 @@ package controller;
 
 import java.util.List;
 
-import bo.Article;
-import bo.Ramette;
-import bo.Stylo;
-import dal.ArticleDAO;
-import dal.DALException;
+import model.bo.Article;
+import model.bo.Ramette;
+import model.bo.Stylo;
+import model.dal.ArticleDAO;
+import model.dal.DALException;
 
 public class AppliTestDAL {
 
