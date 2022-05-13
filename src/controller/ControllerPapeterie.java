@@ -1,8 +1,6 @@
 package controller;
 
-import model.bll.CatalogueManager;
-import model.bo.InfoLivre;
-import model.bo.Livre;
+
 import view.Fenetre;
 
 public class ControllerPapeterie {

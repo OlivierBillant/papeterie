@@ -3,7 +3,6 @@ package controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import bll.*;
 import model.bll.CatalogueManager;
 import model.bo.Article;
 import model.bo.Ramette;
@@ -36,7 +35,7 @@ public class AppliTestBLL {
 		((Stylo) stylo).setDesignation("Bic bille noir");
 		((Stylo) stylo).setReference("BBNoir");
 		mger.updateArticle(stylo);
-		System.out.println("Article après modification  : " + stylo.toString());
+		System.out.println("Article aprï¿½s modification  : " + stylo.toString());
 
 		mger.removeArticle(stylo.getIdArticle());
 		

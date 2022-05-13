@@ -1,25 +1,23 @@
 package view;
 
 	import java.awt.BorderLayout;
-import java.awt.Event;
-import java.awt.event.ActionEvent;
+	import java.awt.event.ActionEvent;
 	import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
+	import java.awt.event.KeyEvent;
 
-import javax.swing.ButtonGroup;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JFrame;
+	import javax.swing.ButtonGroup;
+	import javax.swing.JButton;
+	import javax.swing.JCheckBox;
+	import javax.swing.JFrame;
 	import javax.swing.JLabel;
 	import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.ListSelectionModel;
-import javax.swing.SwingConstants;
+	import javax.swing.JRadioButton;
+	import javax.swing.JTable;
+	import javax.swing.JTextField;
+	import javax.swing.ListSelectionModel;
+	import javax.swing.SwingConstants;
 
-import controller.ControllerLivre;
-import model.bo.InfoLivre;
+
 
 	public class Fenetre extends JFrame {
 		
@@ -33,7 +31,7 @@ import model.bo.InfoLivre;
 			setBounds(150,150,375,500);
 			setTitle("Papeterie-MVC");
 			
-			//Affichage des catégories
+			//Affichage des catï¿½gories
 			JPanel monPanel = new JPanel();
 			setContentPane(monPanel);
 			setLayout(null);
